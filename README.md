@@ -11,8 +11,7 @@
 Ứng dụng được xây dựng bằng **Next.js App Router**, sử dụng **MongoDB Atlas** để lưu dữ liệu người dùng và mã QR. Giao diện được thiết kế với **TailwindCSS**. 
 
 Ảnh chụp minh họa:
-> *(có thể thêm ảnh thực tế khi cần)*
-![Ảnh minh họa](https://soict.hust.edu.vn/wp-content/uploads/logo-soict-hust-1-1024x416.png)
+![Ảnh minh họa](docs/example.jpeg)
 
 ---
 
@@ -185,9 +184,6 @@ function generateJwt(userId: string, username: string): string { ... }
 ## KẾT QUẢ
 
 ### Một số ảnh giao diện minh họa (nếu có):
-- Đăng ký / Đăng nhập
-- Trang tạo QR
-- Trang quét QR (hiển thị kết quả)
 
 ---
 
