@@ -9,11 +9,17 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "html5-qrcode": "^2.3.8",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@yudiel/react-qr-scanner": "^2.3.1",
+    "bcryptjs": "^3.0.2",
+    "html-to-image": "^1.11.13",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.16.0",
     "next": "15.3.1",
-    "qrcode": "^1.5.4",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-qr-code": "^2.0.15",
+    "zod": "^3.25.67"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
