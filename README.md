@@ -199,7 +199,7 @@ async function hashPassword(password: string): Promise<string> {
 
 ## KẾT QUẢ
 
-### Một số ảnh giao diện minh họa (nếu có):
+![Video kết quả](docs/result.avif)
 
 ---
 
