@@ -3,6 +3,8 @@
 
 ## GIỚI THIỆU
 
+DEMO WEB: https://qr-code-reader-blush.vercel.app/
+
 Ứng dụng web hỗ trợ người dùng:
 - Tạo mã QR từ văn bản hoặc đường dẫn URL
 - Quét mã QR bằng camera thiết bị
