@@ -72,99 +72,115 @@ $ npm run dev
 
 ### TÍCH HỢP HỆ THỐNG
 
-- Phần mềm:
-  - **Frontend & Backend**: Cùng trong project Next.js (`/src/app/...`)
-  - **Database**: MongoDB Atlas, kết nối thông qua Mongoose
-  - **Middleware**: JWT Middleware bảo vệ route yêu cầu xác thực
+- **Phần cứng:**
+
+  - Trình duyệt web của người dùng (PC hoặc mobile) có hỗ trợ camera
+  - Máy chủ Vercel dùng để build và chạy ứng dụng web
+  - MongoDB Atlas cloud database lưu trữ dữ liệu tài khoản
+
+- **Phần mềm:**
+
+  - Frontend và Backend: Sử dụng chung project Next.js (App Router)
+  - Middleware: Xử lý xác thực người dùng thông qua JWT
+  - API Routes: Giao tiếp giữa frontend và cơ sở dữ liệu MongoDB
 
 ### CÁC THUẬT TOÁN CƠ BẢN
 
-- Mã hóa mật khẩu bằng Bcrypt:
-  ```ts
-  const hash = await bcrypt.hash(password, 10);
+- **Sinh mã QR:** dùng thư viện `react-qr-code`
+
+  ```tsx
+  <QRCode value={value} size={256} />
   ```
-- Tạo token JWT:
+
+- **Chuyển mã QR thành ảnh PNG để tải:**
+
+  ```ts
+  const dataUrl = await htmlToImage.toPng(qrRef.current);
+  ```
+
+- **Quét mã QR:** dùng `@yudiel/react-qr-scanner`
+
+  ```tsx
+  <QRCodeScanner onScan={handleScan} />
+  ```
+
+- **Tạo token JWT:**
+
   ```ts
   const token = jwt.sign({ userId, username }, JWT_SECRET, { expiresIn: '7d' });
   ```
-- Giải mã token JWT:
+
+- **Băm mật khẩu bằng Bcrypt:**
+
   ```ts
-  const decoded = jwt.verify(token, JWT_SECRET);
+  const hashed = await bcrypt.hash(password, 10);
   ```
-
-
-### NGUYÊN LÝ TẠO MÃ QR
-
-- Người dùng nhập nội dung (text/URL) → được truyền vào component `<QRCode value={value} />`
-- Component `react-qr-code` sẽ sinh ra mã QR dưới dạng SVG/Canvas
-- Có thể dùng thư viện `html-to-image` để chuyển thành ảnh PNG tải về
-
-### NGUYÊN LÝ QUÉT MÃ QR
-
-- Dùng thư viện `@yudiel/react-qr-scanner` để mở camera
-- Khi camera phát hiện mã QR, callback `onScan(data)` được gọi
-- Dữ liệu được hiển thị hoặc xử lý tùy mục đích
 
 ### THIẾT KẾ CƠ SỞ DỮ LIỆU
 
-- **Collection: users**
-  ```ts
-  {
-    username: String,
-    password: String, // hashed
-    createdAt: Date,
-    updatedAt: Date
-  }
-  ```
-- Cấu hình `.env.local`:
+- **Sơ đồ đơn giản:**
+
+  - `users` (username, password, createdAt, updatedAt)
+
+- **Cấu trúc biến môi trường trong **``**:**
+
   ```env
-  MONGODB_URI=...
-  JWT_SECRET=...
+  MONGODB_URI=mongodb+srv://<user>:<pass>@cluster0.mongodb.net/myqrapp
+  JWT_SECRET=your-super-secret
   ```
 
 ### CÁC PAYLOAD
 
-- **Đăng ký**:
+- **Đăng ký:**
+
   ```json
   POST /api/auth/register
   {
-    "username": "dunglt",
+    "username": "testuser",
     "password": "123456"
   }
   ```
-- **Đăng nhập**:
+
+- **Đăng nhập:**
+
   ```json
   POST /api/auth/login
   {
-    "username": "dunglt",
+    "username": "testuser",
     "password": "123456"
   }
   ```
-- **Phản hồi thành công**:
+
+- **Phản hồi từ server:**
+
   ```json
   {
     "token": "<JWT_TOKEN>",
-    "username": "dunglt"
+    "username": "testuser"
   }
   ```
 
 ### ĐẶC TẢ HÀM
 
-- `registerUser(data)`:
-  - Tạo người dùng mới và lưu vào MongoDB
-  - Kiểm tra trùng username trước khi lưu
-- `loginUser(data)`:
-  - Kiểm tra thông tin đăng nhập và tạo JWT
-- `verifyJwt(token)`:
-  - Xác minh và trích xuất thông tin từ token JWT
-
 ```ts
 /**
- * Tạo token từ thông tin người dùng
- * @param userId ID của người dùng
- * @param username tên tài khoản
+ * Tạo token JWT từ thông tin người dùng
+ * @param userId ID người dùng
+ * @param username Tên tài khoản
+ * @returns token đã mã hóa
  */
-function generateJwt(userId: string, username: string): string { ... }
+function generateJwt(userId: string, username: string): string {
+  return jwt.sign({ userId, username }, JWT_SECRET, { expiresIn: '7d' });
+}
+
+/**
+ * Băm mật khẩu người dùng trước khi lưu vào database
+ * @param password mật khẩu dạng plain text
+ * @returns mật khẩu đã băm
+ */
+async function hashPassword(password: string): Promise<string> {
+  return await bcrypt.hash(password, 10);
+}
 ```
 
 ---
