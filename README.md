@@ -11,6 +11,7 @@
 Ứng dụng được xây dựng bằng **Next.js App Router**, sử dụng **MongoDB Atlas** để lưu dữ liệu người dùng và mã QR. Giao diện được thiết kế với **TailwindCSS**. 
 
 Ảnh chụp minh họa:
+> *(có thể thêm ảnh thực tế khi cần)*
 ![Ảnh minh họa](https://soict.hust.edu.vn/wp-content/uploads/logo-soict-hust-1-1024x416.png)
 
 ---
@@ -91,6 +92,19 @@ $ npm run dev
   ```ts
   const decoded = jwt.verify(token, JWT_SECRET);
   ```
+
+
+### NGUYÊN LÝ TẠO MÃ QR
+
+- Người dùng nhập nội dung (text/URL) → được truyền vào component `<QRCode value={value} />`
+- Component `react-qr-code` sẽ sinh ra mã QR dưới dạng SVG/Canvas
+- Có thể dùng thư viện `html-to-image` để chuyển thành ảnh PNG tải về
+
+### NGUYÊN LÝ QUÉT MÃ QR
+
+- Dùng thư viện `@yudiel/react-qr-scanner` để mở camera
+- Khi camera phát hiện mã QR, callback `onScan(data)` được gọi
+- Dữ liệu được hiển thị hoặc xử lý tùy mục đích
 
 ### THIẾT KẾ CƠ SỞ DỮ LIỆU
 
